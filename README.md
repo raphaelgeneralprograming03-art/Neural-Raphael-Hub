@@ -3,533 +3,1073 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural-Raphael-Hub | The Future of Code</title>
-    <!-- 
-        TECNOLOGIAS INTEGRADAS NESTE ARQUIVO:
-        - HTML5 (Estrutura)
-        - CSS3 (Interface GitHub Dark/Red/Green)
-        - JavaScript (Lógica de SPA e Banco de Dados Local)
-        - Canvas 2D (Visão Geral estilo Neural)
-        - Python (Scripts de automação embutidos)
-        - C++ (Núcleo de processamento simulado)
-        - Bash (Scripts de deploy e sistema)
-    -->
+    <title>Neural-Raphael-Cromium | Next-Gen Cloud Platform & IDE</title>
     <style>
-        /* CSS3 - DEFINIÇÕES DE CORES E LAYOUT */
         :root {
-            --bg-black: #000000;
-            --bg-darker: #0a0a0a;
-            --text-green: #00ff41; /* Verde Matrix/Primeiros Algoritmos */
-            --btn-red: #8b0000;    /* Vermelho Escuro */
-            --btn-red-hover: #ff0000;
-            --border-color: #333;
-            --font-mono: 'Courier New', Courier, monospace;
+            --bg-dark: #07080a;
+            --bg-card: #111318;
+            --toolbar-bg: #161820;
+            --sidebar-bg: #0d0e12;
+            --accent-red: #ff2a2a;
+            --accent-glow: rgba(255, 42, 42, 0.4);
+            --dark-ring: #030304;
+            --text-main: #f1f3f9;
+            --text-muted: #838996;
+            --border-color: #262933;
+            --border-active: #ff2a2a;
+            --success-color: #00e676;
+            --warning-color: #ffb300;
+            --blue-color: #29b6f6;
+            --purple-color: #ab47bc;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background-color: var(--bg-black);
-            color: var(--text-green);
-            font-family: var(--font-mono);
-            overflow-x: hidden;
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            margin: 0;
+            padding: 0;
         }
 
-        /* HEADER ESTILO GITHUB */
-        header {
-            background-color: var(--bg-darker);
-            padding: 15px 30px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+        body, html {
+            height: 100%;
+            width: 100%;
+            font-family: 'Segoe UI', system-ui, -apple-system, monospace;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--text-green);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        /* --- CHROMIUM RED/BLACK LOGO --- */
+        .chromium-logo {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            border-radius: 50%;
+            background: var(--dark-ring);
+            display: inline-block;
+            box-shadow: 0 0 12px var(--accent-glow);
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
-        .search-bar {
-            background: #1a1a1a;
-            border: 1px solid var(--border-color);
-            padding: 5px 15px;
-            border-radius: 5px;
-            color: var(--text-green);
-            width: 300px;
+        .chromium-logo:hover {
+            transform: scale(1.05);
         }
 
-        nav a {
-            color: var(--text-green);
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 0.9rem;
+        .chromium-logo .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background: #ff0000;
+            border-radius: 50%;
+            z-index: 4;
+            box-shadow: 0 0 10px #ff0000;
         }
 
-        /* LAYOUT PRINCIPAL */
-        .container {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            gap: 20px;
-            padding: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+        .chromium-logo .segment {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            clip-path: polygon(50% 50%, 0 0, 100% 0);
         }
 
-        /* SIDEBAR / PERFIL */
-        .sidebar {
+        .chromium-logo .seg1 { background: #1f1f1f; transform: rotate(0deg); }
+        .chromium-logo .seg2 { background: #121212; transform: rotate(120deg); }
+        .chromium-logo .seg3 { background: #080808; transform: rotate(240deg); }
+
+        .chromium-logo .outer-ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px solid #282828;
+            z-index: 3;
+        }
+
+        /* --- APP LAYOUT ROOT --- */
+        #app-root {
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            width: 100vw;
         }
 
-        .profile-img {
-            width: 260px;
-            height: 260px;
-            background: linear-gradient(45deg, #000, #8b0000);
-            border: 2px solid var(--text-green);
-            border-radius: 50%;
-            margin-bottom: 20px;
+        /* HEADER & NAVBAR */
+        header {
+            background: var(--toolbar-bg);
+            padding: 8px 14px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-        }
-
-        .stats-box {
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-        }
-
-        /* BOTÕES PERSONALIZADOS */
-        .btn-action {
-            background-color: var(--btn-red);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            text-transform: uppercase;
-            margin-top: 10px;
-            width: 100%;
-        }
-
-        .btn-action:hover {
-            background-color: var(--btn-red-hover);
-            box-shadow: 0 0 10px var(--btn-red);
-        }
-
-        /* TABS */
-        .tabs {
+            gap: 12px;
             border-bottom: 1px solid var(--border-color);
-            margin-bottom: 20px;
-            display: flex;
+            z-index: 20;
         }
 
-        .tab {
-            padding: 10px 20px;
+        .app-title {
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-title span {
+            color: var(--accent-red);
+        }
+
+        .nav-group {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .btn {
+            background: #1e212b;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            justify-content: center;
+        }
+
+        #address-bar-wrap {
+            flex-grow: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        #address-bar {
+            width: 100%;
+            background: #090a0d;
+            border: 1px solid var(--border-color);
+            padding: 7px 35px 7px 32px;
+            border-radius: 20px;
+            color: var(--text-main);
+            font-size: 12px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        #address-bar:focus {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .protocol-badge {
+            position: absolute;
+            left: 10px;
+            font-size: 11px;
+        }
+
+        /* WORKSPACE PANELS */
+        #workspace {
+            display: flex;
+            flex-grow: 1;
+            height: calc(100vh - 50px);
+            position: relative;
+        }
+
+        /* SIDEBAR / REPOSITORY TREE */
+        #sidebar {
+            width: 300px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            background: #090a0d;
+        }
+
+        .sidebar-tab-btn {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
             cursor: pointer;
             border-bottom: 2px solid transparent;
         }
 
+        .sidebar-tab-btn.active {
+            color: var(--accent-red);
+            border-bottom-color: var(--accent-red);
+            background: var(--sidebar-bg);
+        }
+
+        .sidebar-panel {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: none;
+        }
+
+        .sidebar-panel.active {
+            display: block;
+        }
+
+        .section-header {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tree-item {
+            padding: 6px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .tree-item:hover {
+            background: #181b24;
+        }
+
+        .tree-item.active {
+            background: #222633;
+            color: var(--accent-red);
+            font-weight: 600;
+        }
+
+        .tree-indent {
+            margin-left: 14px;
+        }
+
+        /* MAIN CONTENT AREA */
+        #main-editor-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-dark);
+            position: relative;
+        }
+
+        /* TOP TAB BAR */
+        #tabs-bar {
+            display: flex;
+            background: #0b0c0f;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            font-size: 12px;
+            background: #12141a;
+            color: var(--text-muted);
+            border-right: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 130px;
+            max-width: 200px;
+        }
+
         .tab.active {
-            border-bottom: 2px solid var(--btn-red);
+            background: var(--bg-dark);
+            color: var(--text-main);
+            border-top: 2px solid var(--accent-red);
+        }
+
+        .tab .close-tab {
+            margin-left: auto;
+            border-radius: 50%;
+            padding: 2px 4px;
+            font-size: 10px;
+        }
+
+        .tab .close-tab:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* EDITOR / PREVIEW split */
+        #code-workspace {
+            display: flex;
+            flex-grow: 1;
+            height: calc(100% - 180px);
+        }
+
+        #code-editor {
+            flex: 1;
+            background: #090a0d;
+            color: #a9b7c6;
+            border: none;
+            padding: 15px;
+            font-family: 'Consolas', 'Fira Code', monospace;
+            font-size: 13px;
+            resize: none;
+            outline: none;
+            line-height: 1.5;
+            border-right: 1px solid var(--border-color);
+        }
+
+        #live-preview {
+            flex: 1;
+            background: #fff;
+            border: none;
+        }
+
+        /* TERMINAL / LOGS BOTTOM PANEL */
+        #bottom-panel {
+            height: 180px;
+            background: #0a0b0e;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            background: #111318;
+            padding: 6px 12px;
+            font-size: 11px;
+            display: flex;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .panel-tab {
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .panel-tab.active {
+            color: var(--accent-red);
             font-weight: bold;
         }
 
-        /* VISÃO GERAL (CANVAS) */
-        #overview-canvas {
-            background: #050505;
-            border: 1px solid var(--border-color);
-            width: 100%;
-            height: 300px;
-            border-radius: 8px;
-        }
-
-        /* REPOSITÓRIOS */
-        .repo-card {
-            border-bottom: 1px solid var(--border-color);
-            padding: 20px 0;
-        }
-
-        .repo-name {
-            font-size: 1.2rem;
-            color: var(--text-green);
-            text-decoration: none;
-        }
-
-        .tag {
-            font-size: 0.7rem;
-            border: 1px solid var(--text-green);
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-left: 10px;
-        }
-
-        /* DATABASE SIMULATOR */
-        #db-console {
-            background: #000;
-            color: #0f0;
+        #terminal-output {
+            flex-grow: 1;
             padding: 10px;
+            font-family: monospace;
             font-size: 12px;
-            height: 150px;
-            overflow-y: scroll;
-            border: 1px solid #333;
-            margin-top: 20px;
+            color: #00e676;
+            overflow-y: auto;
+            white-space: pre-wrap;
         }
 
-        /* SEÇÃO DE CÓDIGOS MULTI-LINGUAGEM */
-        .code-display {
-            background: #0a0a0a;
-            border-left: 4px solid var(--btn-red);
-            padding: 15px;
-            margin: 10px 0;
-            white-space: pre;
-            overflow-x: auto;
-            font-size: 13px;
-            color: #ddd;
+        /* --- CANVAS OVERLAY (OVERVIEW) --- */
+        #overview-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 5, 8, 0.94);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            backdrop-filter: blur(12px);
         }
 
-        .hidden { display: none; }
+        #overview-overlay.active {
+            display: flex;
+        }
 
+        .overview-top {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #overview-canvas {
+            flex-grow: 1;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CARD MODALS */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            width: 450px;
+            z-index: 2000;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            background: #08090b;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        /* BADGES */
+        .badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .badge-red { background: rgba(255,42,42,0.2); color: var(--accent-red); }
+        .badge-green { background: rgba(0,230,118,0.2); color: var(--success-color); }
+        .badge-blue { background: rgba(41,182,246,0.2); color: var(--blue-color); }
+        .badge-purple { background: rgba(171,71,188,0.2); color: var(--purple-color); }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo">Neural-Raphael-Hub</div>
-    <input type="text" class="search-bar" placeholder="Search or jump to...">
-    <nav>
-        <a href="#" onclick="showPage('overview')">Overview</a>
-        <a href="#" onclick="showPage('repos')">Repositories</a>
-        <a href="#" onclick="showPage('config')">Settings</a>
-        <a href="#" onclick="showPage('polyglot')">Core Engine (Polyglot)</a>
-    </nav>
-</header>
+    <div id="app-root">
+        <!-- HEADER TOP BAR -->
+        <header>
+            <div class="chromium-logo" onclick="app.toggleOverview()" title="Visão Geral do Sistema (Overview Canvas)">
+                <div class="outer-ring"></div>
+                <div class="center-circle"></div>
+                <div class="segment seg1"></div>
+                <div class="segment seg2"></div>
+                <div class="segment seg3"></div>
+            </div>
 
-<div class="container">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="profile-img">NR</div>
-        <h2>Neural Raphael</h2>
-        <p style="color: #666;">@neural_raphael_system</p>
-        <p style="margin: 15px 0;">Architecting the neural future through multi-language systems.</p>
-        
-        <button class="btn-action">Edit Profile</button>
+            <div class="app-title">
+                Neural-Raphael-Cromium <span>IDE Engine</span>
+            </div>
 
-        <div class="stats-box">
-            <p>Followers: 1.2k</p>
-            <p>Following: 430</p>
-            <p>Stars: 8.9k</p>
+            <div class="nav-group">
+                <button class="btn btn-icon" onclick="app.toggleOverview()" title="Overview Canvas 2D">🔳</button>
+                <button class="btn" onclick="app.openModal('repo-modal')">➕ Novo Repositório</button>
+                <button class="btn" onclick="app.openModal('container-modal')">📦 Novo Contêiner</button>
+            </div>
+
+            <div id="address-bar-wrap">
+                <span class="protocol-badge">⚡</span>
+                <input type="text" id="address-bar" value="neural://repository/main-core" onkeydown="app.handleAddressKey(event)">
+            </div>
+
+            <div class="nav-group">
+                <button class="btn" onclick="app.gitCommit()">💾 Commit</button>
+                <button class="btn" onclick="app.gitPush()">🚀 Push</button>
+            </div>
+        </header>
+
+        <!-- WORKSPACE CORE -->
+        <div id="workspace">
+            <!-- SIDEBAR: REPOS, BRANCHES, CONTAINERS & TAGS -->
+            <div id="sidebar">
+                <div class="sidebar-tabs">
+                    <div class="sidebar-tab-btn active" onclick="app.switchSidebarTab('repos')">REPOS</div>
+                    <div class="sidebar-tab-btn" onclick="app.switchSidebarTab('branches')">BRANCHES</div>
+                    <div class="sidebar-tab-btn" onclick="app.switchSidebarTab('containers')">DOCKER</div>
+                    <div class="sidebar-tab-btn" onclick="app.switchSidebarTab('tags')">TAGS</div>
+                </div>
+
+                <!-- PANEL REPOSITORIES -->
+                <div class="sidebar-panel active" id="panel-repos">
+                    <div class="section-header">
+                        <span>Repositórios Ativos</span>
+                        <span class="badge badge-red" id="repo-count">0</span>
+                    </div>
+                    <div id="repo-tree-list"></div>
+                </div>
+
+                <!-- PANEL BRANCHES -->
+                <div class="sidebar-panel" id="panel-branches">
+                    <div class="section-header">
+                        <span>Branches Git</span>
+                        <button class="btn btn-icon" style="height:20px; width:20px;" onclick="app.createBranch()">+</button>
+                    </div>
+                    <div id="branch-tree-list"></div>
+                </div>
+
+                <!-- PANEL CONTAINERS -->
+                <div class="sidebar-panel" id="panel-containers">
+                    <div class="section-header">
+                        <span>Contêineres Ativos</span>
+                        <span class="badge badge-blue" id="container-count">0</span>
+                    </div>
+                    <div id="container-tree-list"></div>
+                </div>
+
+                <!-- PANEL TAGS & RELEASES -->
+                <div class="sidebar-panel" id="panel-tags">
+                    <div class="section-header">
+                        <span>Tags & Versions</span>
+                        <button class="btn btn-icon" style="height:20px; width:20px;" onclick="app.createTag()">+</button>
+                    </div>
+                    <div id="tag-tree-list"></div>
+                </div>
+            </div>
+
+            <!-- MAIN EDITOR & LIVE ENGINE -->
+            <div id="main-editor-area">
+                <div id="tabs-bar">
+                    <!-- Abas injetadas dinamicamente -->
+                </div>
+
+                <div id="code-workspace">
+                    <textarea id="code-editor" spellcheck="false" oninput="app.onCodeChange()"></textarea>
+                    <iframe id="live-preview"></iframe>
+                </div>
+
+                <!-- BOTTOM TERMINAL LOGS -->
+                <div id="bottom-panel">
+                    <div class="panel-header">
+                        <span class="panel-tab active" onclick="app.switchTerminalTab('console')">Console Executável</span>
+                        <span class="panel-tab" onclick="app.switchTerminalTab('docker')">Logs do Docker Container</span>
+                        <span class="panel-tab" onclick="app.switchTerminalTab('git')">Git CLI Log</span>
+                    </div>
+                    <div id="terminal-output">Neural-Raphael Engine inicializada com sucesso.
+Aguardando comandos da CLI...</div>
+                </div>
+            </div>
         </div>
+    </div>
 
-        <div id="db-console">
-            [System Log]: Initializing database...<br>
-            [Status]: Online<br>
-            [Region]: Global-Neural-Net
+    <!-- OVERVIEW CANVAS OVERLAY -->
+    <div id="overview-overlay">
+        <div class="overview-top">
+            <div class="app-title">
+                <div class="chromium-logo" style="transform: scale(0.8)">
+                    <div class="outer-ring"></div>
+                    <div class="center-circle"></div>
+                    <div class="segment seg1"></div>
+                    <div class="segment seg2"></div>
+                    <div class="segment seg3"></div>
+                </div>
+                Visão Geral da Arquitetura (Canvas 2D Overview System)
+            </div>
+            <button class="btn btn-icon" onclick="app.toggleOverview()">✕</button>
         </div>
-    </aside>
+        <canvas id="overview-canvas"></canvas>
+    </div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main id="main-content">
-        
-        <!-- PÁGINA: VISÃO GERAL -->
-        <section id="page-overview">
-            <div class="tabs">
-                <div class="tab active">Overview</div>
-                <div class="tab">Contributions</div>
-            </div>
-            
-            <h3>Neural Activity Map</h3>
-            <canvas id="overview-canvas"></canvas>
+    <!-- MODAL NOVO REPOSITÓRIO -->
+    <div class="modal" id="repo-modal">
+        <div class="modal-header">
+            <span>Criar Novo Repositório</span>
+            <span style="cursor:pointer;" onclick="app.closeModal('repo-modal')">✕</span>
+        </div>
+        <div class="form-group">
+            <label>Nome do Repositório</label>
+            <input type="text" id="new-repo-name" placeholder="ex: neural-ai-core">
+        </div>
+        <div class="form-group">
+            <label>Visibilidade</label>
+            <select id="new-repo-vis">
+                <option value="public">Público</option>
+                <option value="private">Privado</option>
+            </select>
+        </div>
+        <button class="btn" style="width:100%; justify-content:center;" onclick="app.confirmCreateRepo()">Criar Repositório</button>
+    </div>
 
-            <h3 style="margin-top: 30px;">Popular Repositories</h3>
-            <div id="popular-repos-list">
-                <!-- Injetado via JS -->
-            </div>
-        </section>
+    <!-- MODAL NOVO CONTÊINER -->
+    <div class="modal" id="container-modal">
+        <div class="modal-header">
+            <span>Subir Novo Contêiner Docker</span>
+            <span style="cursor:pointer;" onclick="app.closeModal('container-modal')">✕</span>
+        </div>
+        <div class="form-group">
+            <label>Nome do Contêiner</label>
+            <input type="text" id="new-container-name" placeholder="ex: node-runner-v16">
+        </div>
+        <div class="form-group">
+            <label>Imagem Base</label>
+            <select id="new-container-img">
+                <option value="node:18-alpine">node:18-alpine</option>
+                <option value="python:3.10-slim">python:3.10-slim</option>
+                <option value="nginx:latest">nginx:latest</option>
+                <option value="ubuntu:22.04">ubuntu:22.04</option>
+            </select>
+        </div>
+        <button class="btn" style="width:100%; justify-content:center;" onclick="app.confirmCreateContainer()">Iniciar Contêiner</button>
+    </div>
 
-        <!-- PÁGINA: REPOSITÓRIOS -->
-        <section id="page-repos" class="hidden">
-            <div class="tabs">
-                <div class="tab active">Repositories</div>
-            </div>
-            <div id="full-repo-list"></div>
-        </section>
+    <script>
+        /**
+         * ENGINE EXECUTÁVEL COMPLETA - NEURAL-RAPHAEL-CROMIUM PLATFORM
+         * Gerenciador de Repositórios, Arquivos, Containers, Branches e Canvas Overview
+         */
+        class NeuralPlatformEngine {
+            constructor() {
+                // Estrutura de Armazenamento de Dados Extensível
+                this.repositories = [];
+                this.containers = [];
+                this.tags = [];
+                this.activeRepoId = null;
+                this.activeBranch = 'main';
+                this.openTabs = [];
+                this.activeTabFileId = null;
+                
+                this.canvas = document.getElementById('overview-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                
+                this.initApp();
+            }
 
-        <!-- PÁGINA: CONFIGURAÇÕES -->
-        <section id="page-config" class="hidden">
-            <h2>System Configuration</h2>
-            <div style="margin-top:20px; border: 1px solid #333; padding: 20px;">
-                <label>Node Name:</label><br>
-                <input type="text" value="Neural-Raphael-Hub" class="search-bar" style="width:100%"><br><br>
-                <label>Security Protocol:</label><br>
-                <select class="search-bar" style="width:100%">
-                    <option>Neural Encryption v4</option>
-                    <option>Standard RSA</option>
-                </select><br><br>
-                <button class="btn-action">Save Config</button>
-            </div>
-        </section>
+            initApp() {
+                this.seedDefaultData();
+                this.renderSidebarPanels();
+                this.setupCanvasResize();
+                this.startOverviewRenderLoop();
+                this.logTerminal("System", "Plataforma Neural-Raphael inicializada. Pronta para processamento.");
+            }
 
-        <!-- PÁGINA: POLYGLOT ENGINE -->
-        <section id="page-polyglot" class="hidden">
-            <h2>Neural Core Engine (Multi-Language Source)</h2>
-            <p>Abaixo estão os algoritmos base que sustentam o Hub, integrando Python, C++ e Bash.</p>
-            
-            <h3>Python Module (AI Data Processor)</h3>
-            <div class="code-display" id="python-code"></div>
+            seedDefaultData() {
+                // Repositório Padrão Inicial
+                const defaultRepo = {
+                    id: 'repo-1',
+                    name: 'neural-raphael-core',
+                    visibility: 'public',
+                    branches: ['main', 'dev-feature', 'bugfix-canvas'],
+                    files: [
+                        { id: 'file-1', name: 'index.html', content: '<!DOCTYPE html>\n<html>\n<head>\n  <style>body{background:#111; color:#00e676; font-family:sans-serif; text-align:center; padding-top:50px;}</style>\n</head>\n<body>\n  <h1>Neural-Raphael App Executing</h1>\n  <p>Ambiente de código renderizado em tempo real.</p>\n</body>\n</html>' },
+                        { id: 'file-2', name: 'styles.css', content: '/* Estilos globais do repositório */\nbody { margin: 0; padding: 0; }' },
+                        { id: 'file-3', name: 'main.js', content: '// Script Principal\nconsole.log("Neural Core Active");' }
+                    ]
+                };
 
-            <h3>C++ Module (High-Performance Kernel)</h3>
-            <div class="code-display" id="cpp-code"></div>
+                // Contêiner Padrão
+                const defaultContainer = {
+                    id: 'cnt-1',
+                    name: 'neural-web-proxy',
+                    image: 'node:18-alpine',
+                    status: 'running',
+                    port: '8080:80'
+                };
 
-            <h3>Bash Script (Automated Deployment)</h3>
-            <div class="code-display" id="bash-code"></div>
-        </section>
+                // Tags Padrão
+                this.tags = [
+                    { name: 'v1.0.0-alpha', hash: 'a1b2c3d', date: '2026-03-30' },
+                    { name: 'v1.1.0-stable', hash: 'f9e8d7c', date: '2026-04-01' }
+                ];
 
-    </main>
-</div>
+                this.repositories.push(defaultRepo);
+                this.containers.push(defaultContainer);
+                this.activeRepoId = defaultRepo.id;
 
-<script>
-    /* ============================================================
-       1. BANCO DE DADOS (Simulado via LocalStorage/JSON)
-       ============================================================ */
-    const Database = {
-        user: {
-            name: "Neural Raphael",
-            handle: "NR-Hub",
-            repos: [
-                { name: "Deep-Neural-Engine", lang: "C++", stars: 1240, desc: "Core engine for neural processing." },
-                { name: "Raphael-OS-Kernel", lang: "Assembly", stars: 3500, desc: "A custom kernel for ultra-fast tasking." },
-                { name: "Python-AI-Toolkit", lang: "Python", stars: 890, desc: "Collection of machine learning scripts." },
-                { name: "Global-Bash-Automation", lang: "Bash", stars: 450, desc: "Scripts to manage cloud infrastructure." }
-            ]
-        },
-        log: function(msg) {
-            const consoleBox = document.getElementById('db-console');
-            consoleBox.innerHTML += `> ${msg}<br>`;
-            consoleBox.scrollTop = consoleBox.scrollHeight;
-        }
-    };
+                // Abrir primeiro arquivo no editor
+                this.openFile(defaultRepo.files[0].id);
+            }
 
-    /* ============================================================
-       2. LÓGICA DE NAVEGAÇÃO (SPA)
-       ============================================================ */
-    function showPage(pageId) {
-        document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
-        document.getElementById('page-' + pageId).classList.remove('hidden');
-        Database.log("Navegando para: " + pageId);
-    }
+            // --- NAVEGAÇÃO DE SIDEBAR ---
+            switchSidebarTab(tabName) {
+                document.querySelectorAll('.sidebar-tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.sidebar-panel').forEach(panel => panel.classList.remove('active'));
 
-    /* ============================================================
-       3. CANVAS 2D - VISÃO GERAL (ALGORITMO NEURAL)
-       ============================================================ */
-    const canvas = document.getElementById('overview-canvas');
-    const ctx = canvas.getContext('2d');
-    let points = [];
+                event.target.classList.add('active');
+                document.getElementById(`panel-${tabName}`).classList.add('active');
+            }
 
-    function initCanvas() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        for(let i=0; i<50; i++) {
-            points.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2
-            });
-        }
-    }
+            renderSidebarPanels() {
+                // Render Repositórios
+                const repoList = document.getElementById('repo-tree-list');
+                repoList.innerHTML = '';
+                document.getElementById('repo-count').textContent = this.repositories.length;
 
-    function drawCanvas() {
-        ctx.clearRect(0,0, canvas.width, canvas.height);
-        ctx.strokeStyle = '#00ff41';
-        ctx.fillStyle = '#8b0000';
-        
-        points.forEach((p, i) => {
-            p.x += p.vx;
-            p.y += p.vy;
+                this.repositories.forEach(repo => {
+                    const repoEl = document.createElement('div');
+                    repoEl.className = `tree-item ${repo.id === this.activeRepoId ? 'active' : ''}`;
+                    repoEl.innerHTML = `📁 <strong>${repo.name}</strong> <span class="badge badge-blue">${repo.visibility}</span>`;
+                    repoEl.onclick = () => this.selectRepository(repo.id);
+                    repoList.appendChild(repoEl);
 
-            if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-            if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                    // Arquivos do Repositório Se For Ativo
+                    if (repo.id === this.activeRepoId) {
+                        repo.files.forEach(file => {
+                            const fileEl = document.createElement('div');
+                            fileEl.className = `tree-item tree-indent ${file.id === this.activeTabFileId ? 'active' : ''}`;
+                            fileEl.innerHTML = `📄 ${file.name}`;
+                            fileEl.onclick = (e) => {
+                                e.stopPropagation();
+                                this.openFile(file.id);
+                            };
+                            repoList.appendChild(fileEl);
+                        });
+                    }
+                });
 
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, 3, 0, Math.PI*2);
-            ctx.fill();
+                // Render Branches
+                const branchList = document.getElementById('branch-tree-list');
+                branchList.innerHTML = '';
+                const activeRepo = this.getActiveRepo();
+                if (activeRepo) {
+                    activeRepo.branches.forEach(branch => {
+                        const bEl = document.createElement('div');
+                        bEl.className = `tree-item ${branch === this.activeBranch ? 'active' : ''}`;
+                        bEl.innerHTML = `🌿 ${branch} ${branch === this.activeBranch ? '(Current)' : ''}`;
+                        bEl.onclick = () => this.switchBranch(branch);
+                        branchList.appendChild(bEl);
+                    });
+                }
 
-            // Desenha linhas entre pontos próximos (Rede Neural)
-            for(let j=i+1; j<points.length; j++) {
-                let p2 = points[j];
-                let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                if(dist < 100) {
-                    ctx.beginPath();
-                    ctx.moveTo(p.x, p.y);
-                    ctx.lineTo(p2.x, p2.y);
-                    ctx.globalAlpha = 1 - (dist/100);
-                    ctx.stroke();
-                    ctx.globalAlpha = 1;
+                // Render Containers
+                const cntList = document.getElementById('container-tree-list');
+                cntList.innerHTML = '';
+                document.getElementById('container-count').textContent = this.containers.length;
+                this.containers.forEach(cnt => {
+                    const cEl = document.createElement('div');
+                    cEl.className = 'tree-item';
+                    cEl.innerHTML = `📦 <strong>${cnt.name}</strong> <span class="badge badge-green">${cnt.status}</span>`;
+                    cntList.appendChild(cEl);
+                });
+
+                // Render Tags
+                const tagList = document.getElementById('tag-tree-list');
+                tagList.innerHTML = '';
+                this.tags.forEach(tag => {
+                    const tEl = document.createElement('div');
+                    tEl.className = 'tree-item';
+                    tEl.innerHTML = `🏷️ <strong>${tag.name}</strong> <span style="font-size:10px; color:var(--text-muted);">${tag.hash}</span>`;
+                    tagList.appendChild(tEl);
+                });
+            }
+
+            // --- EDITOR & TABS SYSTEM ---
+            openFile(fileId) {
+                const repo = this.getActiveRepo();
+                const file = repo.files.find(f => f.id === fileId);
+                if (!file) return;
+
+                if (!this.openTabs.includes(fileId)) {
+                    this.openTabs.push(fileId);
+                }
+
+                this.activeTabFileId = fileId;
+                this.renderTabsUI();
+
+                const editor = document.getElementById('code-editor');
+                editor.value = file.content;
+                this.updateLivePreview(file.content);
+                this.renderSidebarPanels();
+            }
+
+            closeTab(fileId, e) {
+                if (e) e.stopPropagation();
+                this.openTabs = this.openTabs.filter(id => id !== fileId);
+                
+                if (this.activeTabFileId === fileId) {
+                    this.activeTabFileId = this.openTabs.length > 0 ? this.openTabs[this.openTabs.length - 1] : null;
+                }
+
+                if (this.activeTabFileId) {
+                    this.openFile(this.activeTabFileId);
+                } else {
+                    document.getElementById('code-editor').value = '';
+                    document.getElementById('live-preview').srcdoc = '';
+                }
+
+                this.renderTabsUI();
+            }
+
+            renderTabsUI() {
+                const tabsBar = document.getElementById('tabs-bar');
+                tabsBar.innerHTML = '';
+
+                const repo = this.getActiveRepo();
+                this.openTabs.forEach(fileId => {
+                    const file = repo.files.find(f => f.id === fileId);
+                    if (!file) return;
+
+                    const tab = document.createElement('div');
+                    tab.className = `tab ${file.id === this.activeTabFileId ? 'active' : ''}`;
+                    tab.onclick = () => this.openFile(file.id);
+                    tab.innerHTML = `
+                        📄 ${file.name}
+                        <span class="close-tab" onclick="app.closeTab('${file.id}', event)">✕</span>
+                    `;
+                    tabsBar.appendChild(tab);
+                });
+            }
+
+            onCodeChange() {
+                if (!this.activeTabFileId) return;
+                const content = document.getElementById('code-editor').value;
+                const repo = this.getActiveRepo();
+                const file = repo.files.find(f => f.id === this.activeTabFileId);
+                if (file) {
+                    file.content = content;
+                    this.updateLivePreview(content);
                 }
             }
-        });
-        requestAnimationFrame(drawCanvas);
-    }
 
-    /* ============================================================
-       4. CARREGAMENTO DE REPOSITÓRIOS
-       ============================================================ */
-    function loadRepos() {
-        const container = document.getElementById('popular-repos-list');
-        const fullList = document.getElementById('full-repo-list');
-        
-        Database.user.repos.forEach(repo => {
-            const html = `
-                <div class="repo-card">
-                    <a href="#" class="repo-name">${repo.name}</a>
-                    <span class="tag">Public</span>
-                    <p style="color: #888; font-size: 0.8rem; margin: 10px 0;">${repo.desc}</p>
-                    <div style="font-size: 0.7rem;">
-                        <span style="color: yellow;">●</span> ${repo.lang} 
-                        <span style="margin-left: 15px;">★ ${repo.stars}</span>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += html;
-            fullList.innerHTML += html;
-        });
-    }
+            updateLivePreview(code) {
+                const preview = document.getElementById('live-preview');
+                preview.srcdoc = code;
+            }
 
-    /* ============================================================
-       5. ALGORITMOS EM OUTRAS LINGUAGENS (EMBUTIDOS)
-       ============================================================ */
-    const pythonCode = `
-# NEURAL-RAPHAEL-HUB AI ENGINE
-# Language: Python 3.9+
-import math
+            // --- GIT SIMULATION & MODALS ---
+            getActiveRepo() {
+                return this.repositories.find(r => r.id === this.activeRepoId);
+            }
 
-class NeuralProcessor:
-    def __init__(self, layers):
-        self.layers = layers
-        self.status = "Initializing"
+            selectRepository(repoId) {
+                this.activeRepoId = repoId;
+                this.renderSidebarPanels();
+                this.logTerminal("Git", `Switched active repository to ID: ${repoId}`);
+            }
 
-    def process_data(self, input_stream):
-        print(f"Processing {len(input_stream)} neural packets...")
-        return [math.tanh(x) for x in input_stream]
+            switchBranch(branchName) {
+                this.activeBranch = branchName;
+                this.renderSidebarPanels();
+                this.logTerminal("Git", `Checkout to branch '${branchName}'`);
+            }
 
-if __name__ == "__main__":
-    engine = NeuralProcessor([64, 128, 64])
-    data = [1.2, 0.5, -0.8, 2.1]
-    result = engine.process_data(data)
-    print("Neural Result:", result)
-    `;
+            gitCommit() {
+                this.logTerminal("Git", `[${this.activeBranch}] Commit executado. Alterações salvas no staging.`);
+            }
 
-    const cppCode = `
-/* 
- * NEURAL CORE KERNEL
- * Language: C++20
- */
-#include <iostream>
-#include <vector>
-#include <algorithm>
+            gitPush() {
+                this.logTerminal("Git", `Push realizado com sucesso para origin/${this.activeBranch}.`);
+            }
 
-class CoreOptimizer {
-public:
-    void optimize() {
-        std::vector<int> nodes = {102, 45, 67, 89, 23};
-        std::sort(nodes.begin(), nodes.end());
-        std::cout << "Kernel: Nodes optimized for Neural-Raphael-Hub." << std::endl;
-    }
-};
+            openModal(modalId) {
+                document.getElementById(modalId).classList.add('active');
+            }
 
-int main() {
-    CoreOptimizer kernel;
-    kernel.optimize();
-    return 0;
-}
-    `;
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.remove('active');
+            }
 
-    const bashCode = `
-#!/bin/bash
-# DEPLOYMENT SCRIPT FOR NEURAL-RAPHAEL-HUB
-# Language: Bash
+            confirmCreateRepo() {
+                const name = document.getElementById('new-repo-name').value || 'new-repo';
+                const vis = document.getElementById('new-repo-vis').value;
 
-echo "--- Starting Deployment to Neural-Raphael-Net ---"
-APP_NAME="Neural-Raphael-Hub"
-VERSION="1.0.0"
+                const newRepo = {
+                    id: `repo-${Date.now()}`,
+                    name: name,
+                    visibility: vis,
+                    branches: ['main'],
+                    files: [
+                        { id: `file-${Date.now()}`, name: 'README.md', content: `# ${name}\nRepositório criado na Plataforma Neural.` }
+                    ]
+                };
 
-mkdir -p ./build/logs
-cp ./index.html ./build/
+                this.repositories.push(newRepo);
+                this.closeModal('repo-modal');
+                this.selectRepository(newRepo.id);
+                this.logTerminal("System", `Novo repositório criado: ${name}`);
+            }
 
-if [ -f "./build/index.html" ]; then
-    echo "SUCCESS: $APP_NAME version $VERSION is live."
-else
-    echo "ERROR: Critical failure in build process."
-    exit 1
-fi
-    `;
+            confirmCreateContainer() {
+                const name = document.getElementById('new-container-name').value || 'container-runner';
+                const img = document.getElementById('new-container-img').value;
 
-    /* ============================================================
-       6. INICIALIZAÇÃO TOTAL (1000 LINHAS DE LÓGICA SIMULADA)
-       ============================================================ */
-    window.onload = () => {
-        initCanvas();
-        drawCanvas();
-        loadRepos();
-        
-        // Injetar códigos multi-linguagem
-        document.getElementById('python-code').innerText = pythonCode;
-        document.getElementById('cpp-code').innerText = cppCode;
-        document.getElementById('bash-code').innerText = bashCode;
+                const newCnt = {
+                    id: `cnt-${Date.now()}`,
+                    name: name,
+                    image: img,
+                    status: 'running',
+                    port: '3000:3000'
+                };
 
-        Database.log("System Check: All modules (Python, C++, Bash) loaded.");
-        Database.log("UI Rendering: Black-Red-Green theme applied.");
-        
-        // Simulação de preenchimento para atingir volume de código substancial
-        for(let i=0; i<10; i++) {
-            Database.log(`Neural Sequence Node #${Math.floor(Math.random()*9999)} verified.`);
+                this.containers.push(newCnt);
+                this.closeModal('container-modal');
+                this.renderSidebarPanels();
+                this.logTerminal("Docker", `Contêiner estanciado: ${name} (${img})`);
+            }
+
+            createBranch() {
+                const bName = prompt("Nome da nova branch:");
+                if (bName) {
+                    const repo = this.getActiveRepo();
+                    repo.branches.push(bName);
+                    this.switchBranch(bName);
+                }
+            }
+
+            createTag() {
+                const tagName = prompt("Nome da Tag (ex: v1.2.0):");
+                if (tagName) {
+                    this.tags.push({ name: tagName, hash: Math.random().toString(16).substr(2, 7), date: '2026-10-02' });
+                    this.renderSidebarPanels();
+                    this.logTerminal("Git", `Nova Tag criada: ${tagName}`);
+                }
+            }
+
+            // --- CANVAS OVERVIEW 2D SYSTEM ---
+            toggleOverview() {
+                const overlay = document.getElementById('overview-overlay');
+                overlay.classList.toggle('active');
+                if (overlay.classList.contains('active')) {
+                    this.setupCanvasResize();
+                    this.drawOverviewTopology();
+                }
+            }
+
+            setupCanvasResize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight - 70;
+            }
+
+            drawOverviewTopology() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Desenhar nó do núcleo central (Core Engine)
+                const centerX = this.canvas.width / 2;
+                const centerY = 120;
+
+                this.drawNode(centerX, centerY, "Neural Core Engine", "#ff2a2a", "CORE");
+
+                // Renderizar Repositórios no Canvas
+                let repoX = centerX - ((this.repositories.length - 1) * 180) / 2;
+                let repoY = 280;
+
+                this.repositories.forEach((repo, idx) => {
+                    const currentX = repoX + (idx * 200);
+                    this.drawConnector(centerX, centerY, currentX, repoY);
+                    this.drawNode(currentX, repoY, repo.name, "#29b6f6", "REPO");
+
+                    // Renderizar Branches
+                    repo.branches.forEach((b, bIdx) => {
+                        const branchY = repoY + 120 + (bIdx * 50);
+                        this.drawConnector(currentX, repoY, currentX, branchY);
+                        this.drawNode(currentX, branchY, `branch: ${b}`, "#ab47bc", "GIT");
+                    });
+                });
+
+                // Renderizar Contêineres à direita
+                let cntX = centerX + 350;
+                let cntY = 280;
+                this.containers.forEach((cnt, cIdx) => {
+                    const yPos = cntY + (cIdx * 90);
+                    this.drawConnector(centerX, centerY, cntX, yPos);
+                    this.drawNode(cntX, yPos, cnt.name, "#00e676", "DOCKER");
+                });
+            }
+
+            drawNode(x, y, label, color, type) {
+                this.ctx.save();
+                this.ctx.shadowBlur = 15;
+                this.ctx.shadowColor = color;
+
+                this.ctx.fillStyle = "#111318";
+                this.ctx.strokeStyle = color;
+                this.ctx.lineWidth = 2;
+
+                this.ctx.beginPath();
+                this.ctx.roundRect(x - 75, y - 25, 150, 50, 8);
+                this.ctx.fill();
+                this.ctx.stroke();
+
+                this.ctx.shadowBlur = 0;
+                this.ctx.fillStyle = "#ffffff";
+                this.ctx.font = "bold 11px monospace";
+                this.ctx.textAlign = "center";
+                this.ctx.fillText(label, x, y - 2);
+
+                this.ctx.fillStyle = color;
+                this.ctx.font = "9px sans-serif";
+                this.ctx.fillText(`[${type}]`, x, y + 14);
+
+                this.ctx.restore();
+            }
+
+            drawConnector(x1, y1, x2, y2) {
+                this.ctx.save();
+                this.ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+                this.ctx.lineWidth = 2;
+                this.ctx.beginPath();
+                this.ctx.moveTo(x1, y1);
+                this.ctx.lineTo(x2, y2);
+                this.ctx.stroke();
+                this.ctx.restore();
+            }
+
+            startOverviewRenderLoop() {
+                const render = () => {
+                    if (document.getElementById('overview-overlay').classList.contains('active')) {
+                        this.drawOverviewTopology();
+                    }
+                    requestAnimationFrame(render);
+                };
+                render();
+            }
+
+            // --- TERMINAL LOGS ---
+            logTerminal(channel, message) {
+                const term = document.getElementById('terminal-output');
+                const time = new Date().toLocaleTimeString();
+                term.textContent += `\n[${time}] [${channel}] > ${message}`;
+                term.scrollTop = term.scrollHeight;
+            }
+
+            switchTerminalTab(tab) {
+                document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+                event.target.classList.add('active');
+                this.logTerminal("CLI", `Exibindo canal: ${tab}`);
+            }
+
+            handleAddressKey(e) {
+                if (e.key === 'Enter') {
+                    this.logTerminal("Router", `Navegando para rota: ${e.target.value}`);
+                }
+            }
         }
-    };
 
-    // Função de preenchimento para expansão de dados (Simulando 1000+ linhas de funcionalidade)
-    const systemExtensor = () => {
-        const complexLogic = Array(100).fill(0).map((_, i) => {
-            return `Function_Node_${i}(input) { return input * ${Math.random()}; }`;
-        });
-        console.log("Neural Core Extension Loaded: " + complexLogic.length + " modules.");
-    };
-    systemExtensor();
-
-</script>
-
-<!-- 
-    ÁREA DE COMENTÁRIOS TÉCNICOS (EXPANSÃO DE ALGORITMOS)
-    Abaixo segue uma representação de lógica estrutural expandida para simular a robustez do GitHub.
-    
-    1. Lógica de Autenticação Neural
-    2. Sistema de Gerenciamento de Commits via Hash C++
-    3. Automação de CI/CD via Bash Integrado
-    4. Renderização de Markdown Neural
-    
-    [C++ Block Continued]
-    void simulateCommits() {
-        for(int i=0; i<100; i++) {
-            // Generates SHA-256 Mock
-        }
-    }
-    
-    [Python Block Continued]
-    def analyze_repository_health(repo_data):
-        # Neural logic for repo analysis
-        pass
--->
-
+        // Inicializar aplicação globalmente
+        const app = new NeuralPlatformEngine();
+    </script>
 </body>
 </html>
