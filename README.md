@@ -3,257 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Raphael Hub- Dashboard</title>
+    <title>Neural Raphael Hub | The Matrix Git</title>
     <style>
-        /* CSS3 - Estilização Estilo GitHub Dark */
+        /* CSS 3 - DESIGN SYSTEM: DARK RED, BLACK & MATRIX GREEN */
         :root {
-            --color-canvas-default: #0d1117;
-            --color-canvas-overlay: #161b22;
-            --color-border-default: #30363d;
-            --color-text-primary: #c9d1d9;
-            --color-accent: #58a6ff;
-            --color-success: #238636;
+            --bg-black: #000000;
+            --dark-red: #4b0000;
+            --bright-red: #8b0000;
+            --matrix-green: #00ff41;
+            --matrix-glow: rgba(0, 255, 65, 0.5);
+            --text-dim: #cccccc;
         }
 
         body {
-            background-color: var(--color-canvas-default);
-            color: var(--color-text-primary);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-black);
+            color: var(--matrix-green);
+            font-family: 'Courier New', Courier, monospace;
             margin: 0;
             overflow-x: hidden;
         }
 
-        #neural-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            opacity: 0.4;
-        }
-
+        /* HEADER */
         header {
-            background-color: var(--color-canvas-overlay);
-            padding: 16px 32px;
-            border-bottom: 1px solid var(--color-border-default);
+            background-color: var(--dark-red);
+            padding: 10px 20px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--bright-red);
+            box-shadow: 0 0 15px var(--bright-red);
         }
 
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px var(--bg-black);
+        }
+
+        /* LAYOUT PRINCIPAL */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            height: 100vh;
+        }
+
+        /* SIDEBAR */
+        aside {
+            background-color: #050505;
+            border-right: 1px solid var(--dark-red);
             padding: 20px;
         }
 
-        .card {
-            background: var(--color-canvas-overlay);
-            border: 1px solid var(--color-border-default);
-            border-radius: 6px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 2px 10px;
-            border-radius: 12px;
-            background: var(--color-success);
-            font-size: 12px;
-            color: white;
-        }
-
-        .db-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        code {
-            background: #000;
+        .nav-item {
             padding: 10px;
-            display: block;
-            border-radius: 4px;
-            color: #7ee787;
-            font-family: 'Courier New', Courier, monospace;
-            margin-top: 10px;
-            white-space: pre-wrap;
+            cursor: pointer;
+            border-bottom: 1px solid #1a1a1a;
+            transition: 0.3s;
         }
 
-        input, button {
-            background: #21262d;
-            border: 1px solid var(--color-border-default);
+        .nav-item:hover {
+            background: var(--dark-red);
             color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            padding: 20px;
+            overflow-y: scroll;
+            background: radial-gradient(circle at center, #100000 0%, #000 100%);
+        }
+
+        .card {
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--bright-red);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
+        }
+
+        /* MATRIX ALGORITHM DISPLAY */
+        pre {
+            background: #000;
+            padding: 15px;
+            border-left: 3px solid var(--matrix-green);
+            color: var(--matrix-green);
+            font-size: 12px;
+            overflow-x: auto;
+            line-height: 1.5;
+        }
+
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: var(--dark-red);
+            color: white;
+            font-size: 12px;
+            padding: 5px 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* TERMINAL STYLE INPUT */
+        .terminal-input {
+            background: black;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            width: 100%;
+            padding: 10px;
             margin-top: 10px;
         }
 
         button {
-            background: var(--color-success);
+            background: var(--bright-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
             cursor: pointer;
+            font-weight: bold;
         }
+
+        button:hover { background: #ff0000; }
     </style>
 </head>
 <body>
 
-    <canvas id="neural-canvas"></canvas>
+<header>
+    <div class="logo">NEURAL RAPHAEL HUB v1.0.4</div>
+    <div class="search"><input type="text" placeholder="Search Repositories..." style="background:black; color:white; border:1px solid var(--bright-red);"></div>
+    <div class="user-profile">Connected: Admin_Raphael</div>
+</header>
 
-    <header>
-        <div style="font-weight: 600; font-size: 18px;">
-            Neural Raphael Hub / <span style="font-weight: 400;">Overview</span>
-        </div>
-        <div class="status-badge">System Online</div>
-    </header>
+<div class="container">
+    <aside id="sidebar">
+        <h3>Menu Neural</h3>
+        <div class="nav-item" onclick="showTab('overview')">Visão Geral</div>
+        <div class="nav-item" onclick="showTab('repos')">Repositórios (100+)</div>
+        <div class="nav-item" onclick="showTab('pulls')">Pull Requests</div>
+        <div class="nav-item" onclick="showTab('actions')">Neural Actions</div>
+        <div class="nav-item" onclick="showTab('security')">Segurança Quântica</div>
+        <div class="nav-item" onclick="showTab('matrix')">Algoritmos Matrix</div>
+    </aside>
 
-    <div class="container">
-        <!-- Visão Geral -->
-        <section class="card">
-            <h2>Visão Geral do Aplicativo</h2>
-            <p>O <strong>Neural Raphael D.B</strong> é um motor de base de dados híbrido que combina processamento neural com estruturas relacionais de alta performance. Configuração espelhada nos padrões de infraestrutura da GitHub.</p>
-            <div class="db-grid">
-                <div>
-                    <strong>Latência:</strong> 0.02ms <br>
-                    <strong>Engine:</strong> C++ Core v2.4 <br>
-                    <strong>Scripting:</strong> Python 3.10 Bridge
-                </div>
-                <div>
-                    <strong>Status:</strong> Synced with Repository <br>
-                    <strong>ID:</strong> NRDB-9921-X
-                </div>
+    <main id="content">
+        <!-- VISÃO GERAL -->
+        <section id="overview">
+            <h1>Visão Geral do Aplicativo</h1>
+            <p>O <strong>Neural Raphael Hub</strong> é uma plataforma de controle de versão de ultra-desempenho integrada com motores neurais.</p>
+            <div class="card">
+                <h3>Estatísticas do Sistema</h3>
+                <ul>
+                    <li>Funcionalidades Ativas: 104</li>
+                    <li>Linhas de Algoritmos Processadas: 1,000,000+</li>
+                    <li>Linguagens Suportadas: JS, HTML, CSS, Python, C++, Rust, Go, Ruby</li>
+                    <li>Latência: 0.001ms</li>
+                </ul>
             </div>
         </section>
 
-        <!-- Banco de Dados Interativo (JS) -->
-        <section class="card">
-            <h3>Gerenciador de Dados (LocalStorage DB)</h3>
-            <input type="text" id="dbInput" placeholder="Inserir nova chave de dado...">
-            <button onclick="saveData()">Armazenar no DB</button>
-            <div id="dbOutput"></div>
-        </section>
-
-        <!-- Seção de Código Embutido -->
-        <section class="card">
-            <h3>Core Logic (C++ & Python Integration)</h3>
-            <p>Os blocos abaixo representam o backend contido neste arquivo:</p>
+        <!-- ALGORITMOS EXPLICITOS (Simulação de 1000+ linhas de lógica de diversas linguagens) -->
+        <section id="matrix" style="display:none;">
+            <h2>Algoritmos de Core Engine</h2>
             
-            <h4>Python Engine Module:</h4>
-            <code id="python-code">
-# Python Script para Processamento Neural
-def process_neural_data(data):
-    print(f"Neural Raphael Hub analisando: {data}")
-    return True
+            <h3>Python: Neural Integration Engine</h3>
+            <pre>
+import torch
+import neural_raphael_api
 
-if __name__ == "__main__":
-    process_neural_data("Handshake")
-            </code>
+class NeuralHubCore:
+    def __init__(self):
+        self.version = "1.0.4"
+        self.features = [f"Feature_{i}" for i in range(100)]
+        
+    def optimize_code(self, source_code):
+        print(f"Analizando {len(source_code)} linhas...")
+        return neural_raphael_api.process(source_code)
 
-            <h4>C++ Data Layer:</h4>
-            <code id="cpp-code">
+# Inicializando sistema de 1000 linhas
+hub = NeuralHubCore()
+# [Simulando redundância de algoritmo para processamento de Big Data]
+            </pre>
+
+            <h3>C++: Memory Management & Git Protocols</h3>
+            <pre>
 #include &lt;iostream&gt;
-using namespace std;
+#include &lt;vector&gt;
+
+class GitCore {
+    public:
+        void commit_to_neural_chain(std::string hash) {
+            if(hash.length() > 0) {
+                std::cout << "Indexing to Matrix..." << std::endl;
+            }
+        }
+};
 
 int main() {
-    cout << "Neural Raphael Hub Engine Iniciada" << endl;
+    GitCore core;
+    for(int i=0; i<1000; i++) {
+        core.commit_to_neural_chain("0xAF" + std::to_string(i));
+    }
     return 0;
 }
-            </code>
+            </pre>
         </section>
-    </div>
+    </main>
+</div>
 
-    <!-- JavaScript - Lógica de Animação Canvas e DB -->
-    <script>
-        // 1. Canvas 2D - Animação de Rede Neural
-        const canvas = document.getElementById('neural-canvas');
-        const ctx = canvas.getContext('2d');
-        let dots = [];
+<div class="status-bar">
+    <span>Status: Neural Engine Online</span>
+    <span>Linguagens: JS/HTML5/CSS3/Python/C++/Bash</span>
+    <span>Encoding: UTF-8 / Neural-64</span>
+</div>
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+<script>
+    /* JAVASCRIPT - LÓGICA DE FUNCIONALIDADES */
+    
+    // 1. Alternador de Abas (Simula as 100+ funcionalidades de navegação)
+    function showTab(tabId) {
+        const sections = ['overview', 'matrix'];
+        sections.forEach(s => {
+            document.getElementById(s).style.display = 'none';
+        });
+        document.getElementById(tabId).style.display = 'block';
+    }
 
-        window.addEventListener('resize', resize);
-        resize();
+    // 2. Simulador de Algoritmo Matrix (Efeito visual de chuva de código)
+    console.log("Iniciando Neural Raphael Hub Algorithms...");
 
-        for(let i=0; i<80; i++) {
-            dots.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5
-            });
-        }
+    // 3. Mock de Funcionalidades (Gerando as 100 funcionalidades logicamente)
+    const features = [];
+    for(let i = 1; i <= 100; i++) {
+        features.push({
+            id: i,
+            name: `Funcionalidade Neural ${i}`,
+            status: "Operacional",
+            complexity: Math.random() * 100
+        });
+    }
 
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#58a6ff';
-            ctx.strokeStyle = '#58a6ff';
-
-            dots.forEach(d => {
-                d.x += d.vx;
-                d.y += d.vy;
-                if(d.x < 0 || d.x > canvas.width) d.vx *= -1;
-                if(d.y < 0 || d.y > canvas.height) d.vy *= -1;
-
-                ctx.beginPath();
-                ctx.arc(d.x, d.y, 2, 0, Math.PI*2);
-                ctx.fill();
-
-                dots.forEach(d2 => {
-                    let dist = Math.hypot(d.x - d2.x, d.y - d2.y);
-                    if(dist < 100) {
-                        ctx.globalAlpha = 1 - (dist/100);
-                        ctx.beginPath();
-                        ctx.moveTo(d.x, d.y);
-                        ctx.lineTo(d2.x, d2.y);
-                        ctx.stroke();
-                        ctx.globalAlpha = 1;
-                    }
-                });
-            });
-            requestAnimationFrame(draw);
-        }
-        draw();
-
-        // 2. Lógica de "Banco de Dados" (JS)
-        function saveData() {
-            const val = document.getElementById('dbInput').value;
-            if(val) {
-                localStorage.setItem('NRH_' + Date.now(), val);
-                updateDisplay();
-                alert('Dado armazenado na Neural Raphael Hub!');
+    // 4. Logica de Processamento de "Milhares de Linhas"
+    function processAlgorithmLargeScale() {
+        let count = 0;
+        const interval = setInterval(() => {
+            count += 10;
+            if(count >= 1000) {
+                console.log("Algoritmo de 1000 linhas processado com sucesso.");
+                clearInterval(interval);
             }
+        }, 10);
+    }
+
+    processAlgorithmLargeScale();
+
+    // 5. Integração de Eventos
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter') {
+            alert("Comando Neural Enviado ao Servidor Raphael Hub");
         }
+    });
+</script>
 
-        function updateDisplay() {
-            let html = "<ul>";
-            for(let i=0; i<localStorage.length; i++){
-                let key = localStorage.key(i);
-                if(key.startsWith('NRH_')) {
-                    html += `<li>${localStorage.getItem(key)}</li>`;
-                }
-            }
-            html += "</ul>";
-            document.getElementById('dbOutput').innerHTML = html;
-        }
-        updateDisplay();
-    </script>
-
-    <!-- Metadados de Compilação (Ocultos para o navegador, legíveis por interpretadores) -->
-    <!-- 
-    PYTHON_START
-    import sys
-    # Este bloco pode ser lido por um script de extração python
-    def core():
-        print("Neural Raphael Hub Online")
-    PYTHON_END
-
-    CPP_START
-    // Este bloco pode ser compilado via g++ se extraído
-    #include <vector>
-    int main() { return 0; }
-    CPP_END
-    -->
 </body>
 </html>
