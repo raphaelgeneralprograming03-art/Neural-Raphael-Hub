@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Raphael D.B - Dashboard</title>
+    <title>Neural Raphael Hub- Dashboard</title>
     <style>
         /* CSS3 - Estilização Estilo GitHub Dark */
         :root {
@@ -101,7 +101,7 @@
 
     <header>
         <div style="font-weight: 600; font-size: 18px;">
-            Neural Raphael D.B / <span style="font-weight: 400;">Overview</span>
+            Neural Raphael Hub / <span style="font-weight: 400;">Overview</span>
         </div>
         <div class="status-badge">System Online</div>
     </header>
@@ -141,7 +141,7 @@
             <code id="python-code">
 # Python Script para Processamento Neural
 def process_neural_data(data):
-    print(f"Neural Raphael DB analisando: {data}")
+    print(f"Neural Raphael Hub analisando: {data}")
     return True
 
 if __name__ == "__main__":
@@ -154,7 +154,7 @@ if __name__ == "__main__":
 using namespace std;
 
 int main() {
-    cout << "Neural Raphael D.B Engine Iniciada" << endl;
+    cout << "Neural Raphael Hub Engine Iniciada" << endl;
     return 0;
 }
             </code>
@@ -220,9 +220,9 @@ int main() {
         function saveData() {
             const val = document.getElementById('dbInput').value;
             if(val) {
-                localStorage.setItem('NRDB_' + Date.now(), val);
+                localStorage.setItem('NRH_' + Date.now(), val);
                 updateDisplay();
-                alert('Dado armazenado na Neural Raphael D.B!');
+                alert('Dado armazenado na Neural Raphael Hub!');
             }
         }
 
@@ -230,7 +230,7 @@ int main() {
             let html = "<ul>";
             for(let i=0; i<localStorage.length; i++){
                 let key = localStorage.key(i);
-                if(key.startsWith('NRDB_')) {
+                if(key.startsWith('NRH_')) {
                     html += `<li>${localStorage.getItem(key)}</li>`;
                 }
             }
@@ -246,7 +246,7 @@ int main() {
     import sys
     # Este bloco pode ser lido por um script de extração python
     def core():
-        print("Neural Raphael DB Online")
+        print("Neural Raphael Hub Online")
     PYTHON_END
 
     CPP_START
